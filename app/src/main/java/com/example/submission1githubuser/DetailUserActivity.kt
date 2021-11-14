@@ -2,6 +2,7 @@ package com.example.submission1githubuser
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.submission1githubuser.databinding.ActivityDetailUserBinding
 import kotlinx.android.synthetic.main.activity_detail_user.*
 
 class DetailUserActivity : AppCompatActivity() {
@@ -10,20 +11,26 @@ class DetailUserActivity : AppCompatActivity() {
         const val DATA = "data"
     }
 
+    private lateinit var binding: ActivityDetailUserBinding
+    private lateinit var user: DataUser
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail_user)
+        binding = ActivityDetailUserBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val user = intent.getParcelableExtra(DATA) as DataUser
+        user = intent.getParcelableExtra(DATA)!!
 
-        tv_name_detail.text = user.name
-        tv_username.text = user.username
-        tv_followers.text = user.followers
-        tv_following.text = user.following
-        tv_repository.text = user.repository
-        tv_company.text = user.company
-        tv_location_detail.text = user.locatioan
-        circle_img_detail.setImageResource(user.avatar)
+        binding.apply {
+            tvNameDetail.text = user.name
+            tvUsername.text = user.username
+            tvFollowers.text = user.followers
+            tvFollowing.text = user.following
+            tvRepository.text = user.repository
+            tvCompany.text = user.company
+            tvLocationDetail.text = user.locatioan
+            circleImgDetail.setImageResource(user.avatar)
+        }
 
     }
 }

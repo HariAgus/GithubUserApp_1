@@ -4,47 +4,56 @@ import android.content.res.TypedArray
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.submission1githubuser.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
     private lateinit var adapterUser: AdapterUser
-    private var dataUser = arrayListOf<DataUser>()
     private lateinit var dataName: Array<String>
     private lateinit var dataLocation: Array<String>
     private lateinit var dataUsername: Array<String>
-    private lateinit var dataRepository : Array<String>
+    private lateinit var dataRepository: Array<String>
     private lateinit var dataFollowers: Array<String>
-    private lateinit var dataFollowing : Array<String>
+    private lateinit var dataFollowing: Array<String>
     private lateinit var dataCompany: Array<String>
     private lateinit var dataAvatar: TypedArray
 
+    private var dataUser = arrayListOf<DataUser>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        adapterUser = AdapterUser(this, dataUser)
-        rv_user.layoutManager = LinearLayoutManager(this)
-        rv_user.adapter = adapterUser
+        adapterUser = AdapterUser(dataUser)
+        binding.rvUser.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = adapterUser
+        }
 
         prepare()
         addItem()
     }
 
     private fun prepare() {
-        dataName = resources.getStringArray(R.array.name)
-        dataLocation = resources.getStringArray(R.array.location)
-        dataAvatar = resources.obtainTypedArray(R.array.avatar)
-        dataRepository = resources.getStringArray(R.array.repository)
-        dataUsername = resources.getStringArray(R.array.username)
-        dataCompany = resources.getStringArray(R.array.company)
-        dataFollowers = resources.getStringArray(R.array.followers)
-        dataFollowing = resources.getStringArray(R.array.following)
+        resources.apply {
+            dataName = getStringArray(R.array.name)
+            dataLocation = getStringArray(R.array.location)
+            dataAvatar = obtainTypedArray(R.array.avatar)
+            dataRepository = getStringArray(R.array.repository)
+            dataUsername = getStringArray(R.array.username)
+            dataCompany = getStringArray(R.array.company)
+            dataFollowers = getStringArray(R.array.followers)
+            dataFollowing = getStringArray(R.array.following)
+        }
     }
 
     private fun addItem() {
         for (position in dataName.indices) {
-            val user = DataUser(dataUsername[position],
+            val user = DataUser(
+                dataUsername[position],
                 dataName[position],
                 dataLocation[position],
                 dataRepository[position],
